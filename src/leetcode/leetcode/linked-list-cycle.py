@@ -6,13 +6,13 @@
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        if head is None:
-            return False
-        count = 1 
-        while head.next:
-            count += 1
-            head = head.next
-            if count > 10000: # maximum length in constraints
+        slow_p = head
+        fast_p = head
+
+        while fast_p and fast_p.next:
+            slow_p = slow_p.next
+            fast_p = fast_p.next.next
+            if slow_p == fast_p:
                 return True
         
         return False

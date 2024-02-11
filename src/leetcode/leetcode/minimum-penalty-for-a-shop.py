@@ -1,30 +1,17 @@
 class Solution:
     def bestClosingTime(self, customers: str) -> int:
-        n_num = [0] * (len(customers))
-        y_num = [0] * (len(customers))
-        n_num[0] = 1 if customers[0] == "N" else 0
-        y_num[-1] = 1 if customers[-1] == "Y" else 0
+        max_hour = -1 # 0th hour
+        curr_Y = 0
+        max_Y = 0
 
-        for i in range(1, len(customers)):
-            if customers[i] == "N":
-                n_num[i] = n_num[i - 1] + 1
-            else:
-                n_num[i] = n_num[i - 1]
-        
-        for i in range(len(customers) - 2, -1, -1):
+        for i in range(len(customers)):
             if customers[i] == "Y":
-                y_num[i] = y_num[i + 1] + 1
+                curr_Y += 1
             else:
-                y_num[i] = y_num[i + 1]
+                curr_Y -= 1
+            
+            if max_Y < curr_Y:
+                max_Y = curr_Y
+                max_hour = i
         
-        y_num.append(0)
-        n_num.insert(0, 0)
-        
-        min_hour = y_num[0] + n_num[0]
-        min_hour_idx = 0
-        for i in range(1, len(n_num)):
-            if min_hour > y_num[i] + n_num[i]:
-                min_hour_idx = i
-                min_hour = y_num[i] + n_num[i]
-        
-        return min_hour_idx
+        return max_hour + 1

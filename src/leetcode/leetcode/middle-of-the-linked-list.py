@@ -6,15 +6,11 @@
 import math
 class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        list_len = 1
-        curr = head
-        while curr.next:
-            list_len += 1
-            curr = curr.next
-        
-        curr = head
-        for i in range(list_len // 2):
-            curr = curr.next
-        return curr
+        slow_p = head
+        fast_p = head
+        while fast_p and fast_p.next:
+            slow_p = slow_p.next
+            fast_p = fast_p.next.next
+        return slow_p
 
         

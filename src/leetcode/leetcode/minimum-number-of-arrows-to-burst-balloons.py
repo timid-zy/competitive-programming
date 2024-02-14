@@ -6,7 +6,6 @@ class Solution:
         i = 0
         points.sort(key=getFirst)
         arrows = 0
-        print(points)
         while i < len(points):
             x1 = points[i][0]
             x2 = points[i][1]
@@ -17,5 +16,5 @@ class Solution:
                 i += 1
             
             arrows += 1
-        
+
         return arrows

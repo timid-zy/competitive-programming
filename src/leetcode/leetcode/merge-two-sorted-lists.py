@@ -5,43 +5,34 @@
 #         self.next = next
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        
+        def mergeTwo(tail, list1, list2):
+            if not list1 and not list2:
+                return tail
+
+            if list2 and (not list1 or list1.val > list2.val):
+                nextEl = ListNode(list2.val)
+                tail.next = nextEl
+                tail = tail.next
+                list2 = list2.next
+            else:
+                nextEl = ListNode(list1.val)
+                tail.next = nextEl
+                tail = tail.next
+                list1 = list1.next
+            
+            return mergeTwo(tail, list1, list2)
 
         head = None
-        if list1 and list2:
-            if list1.val < list2.val:
-                head = list1
-                list1 = list1.next
-            else:
-                head = list2
-                list2 = list2.next
-        elif list1:
-            head = list1
-            list1 = list1.next
-        elif list2:
+        if list1 is None and list2 is None:
+            return None
+
+        if list2 and (not list1 or list1.val > list2.val):
             head = list2
             list2 = list2.next
         else:
-            return head
-
-        last = head
-        while list1 and list2:
-            if list1.val < list2.val:
-                last.next = list1
-                list1 = list1.next
-                last = last.next
-            else:
-                last.next = list2
-                list2 = list2.next
-                last = last.next
-        
-        while list1:
-            last.next = list1
+            head = list1
             list1 = list1.next
-            last = last.next
-        
-        while list2:
-            last.next = list2
-            list2 = list2.next
-            last = last.next
-        
+        head.next = None
+        mergeTwo(head, list1, list2)
         return head

@@ -6,32 +6,16 @@
 #         self.right = right
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-
-        @lru_cache
-        def getEdges(node):
-            if node is None:
-                return float('inf'), float('-inf')
-
-            mnl, mxl = getEdges(node.left)
-            mnr, mxr = getEdges(node.right)
-            
-            return (
-                min(node.val, mnl, mnr),
-                max(node.val, mxl, mxr)
-            )
-            
-        @lru_cache
-        def maxAncestor(node):
-            if node is None or (node.left is None and node.right is None):
-                return float('-inf')
-            
-            mn, mx = getEdges(node)
-            
-            return max(
-                abs(node.val - mn),
-                abs(node.val - mx),
-                maxAncestor(node.left),
-                maxAncestor(node.right)
-            )
-            
-        return maxAncestor(root)
+        
+        def findMax(node, max_, min_):
+            nonlocal ans
+            if not node: return None
+            max_ = max(max_, node.val)
+            min_ = min(min_, node.val)
+            ans = max(ans, max_ - min_)
+            findMax(node.left, max_, min_)
+            findMax(node.right, max_, min_)
+        
+        ans = 0
+        findMax(root, float('-inf'), float('inf'))
+        return ans

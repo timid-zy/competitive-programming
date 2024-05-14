@@ -21,7 +21,7 @@ for i in range(1, len(arr)):
     else:
         arr[i] = arr[i - 1]
 
-arr[max_num + 1] = 0
+# arr[max_num + 1] = 0
 
 for i in range(q):
     l, r = list(map(int, input().split()))

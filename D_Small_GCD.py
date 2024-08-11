@@ -1,37 +1,33 @@
-def getFactors(n):
-    a = []
-    d = 1
-    while d * d <= n:
-        if n % d == 0:
-            a.append(d)
-        
-        d += 1
-    
-    for i in range(len(a) - 1, -1, -1):
-        a.append(n // a[i])
-    
-    return a
+from math import ceil
+from collections import defaultdict
 
-def findMaxIdx(d, x):
-    for i in range(len(d) - 1, -1, -1):
-        if x % d[i] == 0:
-            return d[i]
+def factors(x):
+    res = set([1, x])
+    for cand in range(2, ceil(x ** 0.5) + 1):
+        if x % cand == 0:
+            res.add(cand)
+            res.add(x // cand)
 
+    return res
 
-for i in range(int(input())):
+for _ in range(int(input())):
     input()
-    arr = list(map(int, input().split()))
-    arr.sort()
-    divisors = []
-    for j in range(len(arr)):
-        divisors.append(getFactors(arr[j]))
+    A = list(map(int, input().split()))
+    A.sort()
+
+    dp = defaultdict(int)
+    counts = defaultdict(int)
+    for i, n in enumerate(A):
+        fs = factors(n)
+        for f in fs:
+            dp[f] += counts[f] * (len(A) - i - 1)
+            counts[f] += 1
     
-    count = 0
-    for j in range(1, len(arr) - 1):
-        d = divisors[j]
-        for k in range(j):
-            gcd = findMaxIdx(d, arr[k])
-            # print(arr[k], arr[j], gcd, gcd * (len(arr) - j - 1))
-            count += (gcd) * (len(arr) - j - 1)
-    
-    print(count)
+    for k in sorted(dp.keys(), reverse=True):
+        fs = factors(k)
+        for f in fs:
+            if f == k: continue
+            dp[f] -= dp[k]
+
+    res = sum(k * dp[k] for k in dp)
+    print(res)

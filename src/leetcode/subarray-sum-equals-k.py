@@ -10,10 +10,10 @@ class Solution:
 
             if diff in dict1:
                 count += dict1[diff]
-
+            
             if r_sum not in dict1:
                 dict1[r_sum] = 1
             else:
                 dict1[r_sum] += 1
-               
+        
         return count

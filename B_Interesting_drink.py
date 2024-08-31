@@ -1,8 +1,8 @@
-import bisect
+from bisect import bisect_right
 
 input()
-arr = list(map(int, input().split()))
-arr.sort()
-
-for i in range(int(input())):
-    print(bisect.bisect_right(arr, int(input())))
+A = list(map(int, input().split()))
+A.sort()
+for _ in range(int(input())):
+    n = int(input())
+    print(bisect_right(A, n))

@@ -1,35 +1,24 @@
-import math
-n, k, q = list(map(int, input().split(" ")))
+N, K, M = map(int, input().split())
+Q = [0] * (2 * (10 ** 5) + 1)
 
-arr = [0] * 200002
-min_num = 200001
-max_num = 0
+for _ in range(N):
+    a, b = map(int, input().split())
+    Q[a-1] -= 1
+    Q[b] += 1
 
-for i in range(n):
-    l, r = list(map(int, input().split(" ")))
-    min_num = min(min_num, l, r)
-    max_num = max(max_num, l, r)
-    arr[l] += 1
-    arr[r+1] -= 1
+r_sum = 0
+for i in range(len(Q) - 1, -1, -1):
+    r_sum += Q[i]
+    Q[i] = r_sum
 
-for i in range(1, len(arr)):
-    arr[i] = arr[i - 1] + arr[i]
+admissable = [0] * len(Q)
+r_sum = 0
+for i in range(len(Q)):
+    if Q[i] >= K:
+        r_sum += 1
+    
+    admissable[i] = r_sum
 
-for i in range(1, len(arr)):
-    if arr[i] >= k:
-        arr[i] = arr[i - 1] + 1
-    else:
-        arr[i] = arr[i - 1]
-
-# arr[max_num + 1] = 0
-
-for i in range(q):
-    l, r = list(map(int, input().split()))
-    if l <= min_num and r >= max_num:
-        print(arr[max_num])
-    elif l <= min_num:
-        print(arr[r])
-    elif r >= max_num:
-        print(arr[max_num] - arr[l - 1])
-    else:
-        print(arr[r] - arr[l-1])
+for _ in range(M):
+    a, b = map(int, input().split())
+    print(admissable[b] - admissable[a-1])

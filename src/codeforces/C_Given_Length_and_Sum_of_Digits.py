@@ -1,39 +1,39 @@
-def get_min(m, s):
-    if m * 9 < s or (s == 0 and m > 1):
-        return -1
+def get_mn(n, m):
+    if m == 0 and n == 1:
+        return 0
     
-    ans = [0] * m
-    ans[-1] += 1
-    s -= 1
-
-    for i in range(len(ans)):
-        if s >= 9:
-            s -= 9
-            ans[i] += 9
-        else:
-            ans[i] += s
-            break
-
-    rs = ""
-    for a in ans[::-1]: rs += str(a)
-    
-    return rs
-
-def get_max(m, s):
-    if m * 9 < s or (s == 0 and m > 1):
+    if m > n * 9 or m == 0:
         return -1
 
-    rs = ""
-    for i in range(m):
-        if s >= 9:
-            rs += "9"
-            s -= 9
-        else:
-            rs += str(s)
-            s -= s
+    res = [0] * n
+    res[0] += 1
+    m -= 1
+    i = n-1
+    while m > 0:
+        d = min(9, m)
+        res[i] += d
+        m -= d
+        i -= 1
     
-    return rs
+    return "".join(map(str, res))
+
+def get_mx(n, m):
+    if m == 0 and n == 1:
+        return 0
+    
+    if m > n * 9 or m == 0:
+        return -1
+
+    res = [0] * n
+    i = 0
+    while m > 0:
+        d = min(9, m)
+        res[i] = d
+        m -= d
+        i += 1
+    
+    return "".join(map(str, res))
 
 
-M, S = map(int, input().split())
-print(get_min(M, S), get_max(M, S))
+N, M = map(int, input().split())
+print(get_mn(N, M), get_mx(N, M))

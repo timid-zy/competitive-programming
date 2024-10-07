@@ -1,0 +1,1 @@
+{"name":"Local: F_LCS","url":"/home/timid/Desktop/competitive-programming/F_LCS.py","tests":[{"id":1716309280463,"input":"axyb\nabyxb","output":"axb"},{"id":1716309668882,"input":"abracadabra\navadakedavra","output":"aaadara"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/timid/Desktop/competitive-programming/F_LCS.py","group":"local","local":true}

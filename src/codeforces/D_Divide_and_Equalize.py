@@ -1,52 +1,41 @@
-from collections import Counter
-import bisect
+from collections import defaultdict
 
-# generate primes
-sieve = [0] * ((10 ** 6) + 1)
+sieve = [0] * (10 ** 6 + 2)
 primes = []
-
-for i in range(2, 10 ** 6):
+for i in range(2, 10 ** 6 + 2):
     if sieve[i] == 0:
         primes.append(i)
-    
-        for j in range(i * i, 10 ** 6, i):
+        for j in range(i*i, 10 ** 6 + 2, i):
             sieve[j] = 1
 
-
-def getPrimeFactorization(counter, n):
-    global primes
-    idx = 0
-    while n != 1:
-        d = primes[idx]
-        if n % d == 0:
-            counter[d] = counter.get(d, 0) + 1
-            n //= d
-            continue
-        
-        idx += 1
-    
-for _ in range(int(input())):
-    n = int(input())
-    arr = list(map(int, input().split()))
-
-    counter = Counter()
-    
-    for i in range(len(arr)):
-        if arr[i] == 1:
-            continue
-
-        if sieve[arr[i]] == 0:
-            counter[arr[i]] = counter.get(arr[i], 0) + 1
+def add_factors(x, counter):
+    i = 0
+    while x > 1:
+        if x % primes[i] == 0:
+            counter[primes[i]] += 1
+            x //= primes[i]
         else:
-            getPrimeFactorization(counter, arr[i])
+            i += 1
 
-    flag = True
-    for key in counter:
-        if counter[key] % n != 0:
-            flag = False
-            break
+
+def solve():
+    N = int(input())
+    A = list(map(int, input().split()))
+
+    counter = defaultdict(int)
+    for n in A:
+        if n == 1:
+            continue
+
+        if sieve[n] == 0:
+            counter[n] += 1
+            continue
+
+        add_factors(n, counter)
     
-    if flag:
-        print('YES')
-    else:
-        print('NO')
+    return all(v % N == 0 for k, v in counter.items())
+
+
+for _ in range(int(input())):
+    ans = "YES" if solve() else "NO"
+    print(ans)

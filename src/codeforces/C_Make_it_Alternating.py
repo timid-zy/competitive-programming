@@ -3,25 +3,19 @@ from math import factorial as f
 MOD = 998244353
 def solve():
     S = input()
-    
-    consec = 0
-    res1 = 0
-    cmb = 1
+    res = curr = 1
+    changes = 0
     for i in range(1, len(S)):
         if S[i] == S[i-1]:
-            consec += 1
-            res1 += 1
+            curr += 1
+            changes += 1
         else:
-            cmb = (cmb * (consec + 1)) % MOD
-            consec = 0
+            res = (res * curr) % MOD
+            curr = 1
     
-    if consec >= 1:
-        cmb = (cmb * (consec + 1)) % MOD
-    
-    cmb = (cmb * f(res1) % MOD) % MOD
-    return [res1, cmb]
+    res = (res * curr * f(changes)) % MOD
+    return changes, res
 
 for _ in range(int(input())):
-    ans = solve()
-    print(*ans)
-
+    res = solve()
+    print(*res)

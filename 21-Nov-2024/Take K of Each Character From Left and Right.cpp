@@ -6,6 +6,7 @@ public:
         for (int i = 0; i < size(s); i++) count[s[i]-'a']++;
 
         if (min({count[0], count[1], count[2]}) < 0) return -1;
+        
         int curr[3] = { };
         int l = 0;
         int res = size(s)+1;
